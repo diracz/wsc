@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, salesforce.com, inc.
+ * Copyright (c) 2017, salesforce.com, inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided
@@ -198,7 +198,7 @@ public class XmlObject implements XMLizable {
         XmlObject item = null;
 
         for (XmlObject child : children) {
-            if (child.getName().getLocalPart().equals(name)) {
+            if (child.getName().getLocalPart().equalsIgnoreCase(name)) {
                 item = child;
                 break;
             }

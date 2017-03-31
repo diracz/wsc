@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, salesforce.com, inc.
+ * Copyright (c) 2017, salesforce.com, inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided
@@ -736,10 +736,13 @@ public class BulkConnection {
 
         if (!success) {
             ContentType type = null;
-            if (connection.getContentType().contains(XML_CONTENT_TYPE)) {
-                type = ContentType.XML;
-            } else if (connection.getContentType().contains(JSON_CONTENT_TYPE)) {
-                type = ContentType.JSON;
+            String contentTypeHeader = connection.getContentType();
+            if (contentTypeHeader != null) {
+                if (contentTypeHeader.contains(XML_CONTENT_TYPE)) {
+                    type = ContentType.XML;
+                } else if (contentTypeHeader.contains(JSON_CONTENT_TYPE)) {
+                    type = ContentType.JSON;
+                }
             }
             parseAndThrowException(in, type);
         }

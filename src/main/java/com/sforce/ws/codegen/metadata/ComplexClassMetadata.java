@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, salesforce.com, inc. All rights reserved. Redistribution and use in source and binary forms, with
+ * Copyright (c) 2017, salesforce.com, inc. All rights reserved. Redistribution and use in source and binary forms, with
  * or without modification, are permitted provided that the following conditions are met: Redistributions of source code
  * must retain the above copyright notice, this list of conditions and the following disclaimer. Redistributions in
  * binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the
@@ -15,6 +15,7 @@
  */
 package com.sforce.ws.codegen.metadata;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,6 +69,19 @@ public class ComplexClassMetadata extends ClassMetadata {
 
     public List<MemberMetadata> getMemberMetadataList() {
         return this.memberMetadataList;
+    }
+
+    private final static int MAX_SPLIT_SIZE = 500;
+    public List<List<MemberMetadata>> getSplitMemberMetadataList() {
+        int start = 0;
+        int end = 0;
+        ArrayList<List<MemberMetadata>> result = new ArrayList<>(1+(memberMetadataList.size()/MAX_SPLIT_SIZE));
+        while (start < memberMetadataList.size()) {
+            end = Math.min(start+MAX_SPLIT_SIZE, memberMetadataList.size());
+            result.add(memberMetadataList.subList(start, end));
+            start = end;
+        }
+        return result;
     }
 
     public boolean getGenerateInterfaces() {
